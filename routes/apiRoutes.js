@@ -33,14 +33,17 @@ router.post("/api/workouts/", (req, res) => {
 });
 
 router.get("/api/workouts/", (req, res) => {
-    db.Workout.find().sort("day").then(workouts => {
-        res.json(workouts);
-    })
+    db.Workout.find().sort("day")
+        .then(workouts => {
+            res.json(workouts);
+        })
 });
 
-// router.get("/exercise/:id", (req, res) => {
-//     res.status(200);
-//     console.log(req.params.id);
-// });
+router.get("/api/workouts/range/", (req, res) => {
+    db.Workout.find()
+        .then(workouts => {
+            res.json(workouts);
+        })
+});
 
 module.exports = router;
