@@ -10,7 +10,11 @@ router.put("/api/workouts/:id", (req, res) => {
         $push: { exercises: newExercise }
     }
 
-    db.Workout.findByIdAndUpdate(workoutId, update)
+    let opt = {
+        useFindAndModify: false
+    }
+
+    db.Workout.findByIdAndUpdate(workoutId, update, opt)
         .then(workout => {
             res.json(workout);
 
@@ -18,11 +22,15 @@ router.put("/api/workouts/:id", (req, res) => {
         })
 });
 
-// router.post("/api/workouts/", (req, res) => {
-//     let newWorkout = req.params;
-//     console.log(newWorkout)
-//     return newWorkout;
-// });
+router.post("/api/workouts/", (req, res) => {
+    let newWorkout = new db.Workout;
+    console.log(newWorkout);
+
+    newWorkout.save()
+        .then(workout => {
+            res.json(workout);
+        })
+});
 
 router.get("/api/workouts/", (req, res) => {
     db.Workout.find().sort("day").then(workouts => {
