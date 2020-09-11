@@ -8,7 +8,24 @@ const WorkoutSchema = new Schema({
         default: Date.now
     },
     exercises: Array
-});
+},
+    {
+        toJSON: {
+            virtuals: true
+        }
+    }
+);
+
+WorkoutSchema.virtual("totalDuration").get(function () {
+    let totalDuration = 0;
+    let exerciseArr = this.exercises;
+
+    exerciseArr.forEach(exercise => {
+        totalDuration += exercise.duration;
+    });
+
+    return totalDuration;
+})
 
 const Workouts = mongoose.model("Workout", WorkoutSchema);
 
